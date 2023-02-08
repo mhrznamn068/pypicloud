@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+    pypicloud:
+      build: .
+      depends_on:
+        - postgres
+      container_name: pypicloud-khalti
+      ports:
+        - 3111:8080
+      env_file:
+        - ./.env
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: postgres
+        POSTGRES_HOST_AUTH_METHOD: trust
+      container_name: pypicloud-auth-khalti
+      volumes:
+        - /var/lib/pypi/postgres/data:/var/lib/postgresql/data:consistent
+      restart: always      
